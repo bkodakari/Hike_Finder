@@ -3,10 +3,10 @@
 
 
   <form action="/local-hikes" name="search_params">
-    <input id="address" name="address" type="text" placeholder="Enter Address" required>
-    <input id="distance" name="distance" type="text" placeholder="Search Radius" required>
+    Starting Point: <input id="address" name="address" type="text" placeholder="Enter Address" required>
+    Search Radius: <input id="distance" name="distance" type="text" placeholder="Search Radius" value=10 required>
     <button id="submit" type="submit">Go!</button>
   </form>
 
-
+<script src="static/get_trail_list.js"></script>
 {% endblock %}

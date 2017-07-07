@@ -19,7 +19,8 @@ def get_geocode(address):
     return latitude, longitude
 
 
-def get_list_of_trails(latitude, longitude, distance=10):
+def get_list_of_trails(latitude, longitude, distance):
+    """Make api call for local trails."""
     r = requests.get("https://api.transitandtrails.org/api/v1/trailheads", params={
         "key": ttkey,
         "latitude": latitude,
@@ -43,3 +44,22 @@ def get_list_of_trails(latitude, longitude, distance=10):
         dict_of_trails[name] = [name, latitude, longitude, description, park_name, trail_id]
 
     return [dict_of_trails, dict_of_lat_lng]
+
+
+def get_trail_attributes(trail_id):
+    """Make api call for trail attributes and return them."""
+    r = requests.get("https://api.transitandtrails.org/api/v1/trailheads", params={
+        "key": ttkey,
+        "id": trail_id,
+        "attributes": "attributes"
+    }
+    )
+
+    attributes = r.json()
+
+    return attributes
+
+
+    # /api/v1/trailheads/[id]/attributes
+    # /api/v1/trailheads/[id]/photos
+    # /api/v1/trailheads/[id]/maps

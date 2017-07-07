@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import os
 from jinja2 import StrictUndefined
 from flask_debugtoolbar import DebugToolbarExtension
-from trail_finder import get_geocode, get_list_of_trails
+from trail_finder import get_geocode, get_list_of_trails, get_trail_attributes
 
 
 app = Flask(__name__)
@@ -27,17 +27,16 @@ def get_local_hikes():
 
     dict_of_trails, dict_of_lat_lng = get_list_of_trails(latitude, longitude, distance)
 
-    if dict_of_trails:
-        return jsonify(dict_of_trails)
-    else:
-        return jsonify()
+    return jsonify(dict_of_trails)
 
 
 @app.route("/trails/<trail_id>")
 def display_trail_info(trail_id):
     """Make api call for trail attributes and display them."""
 
-    pass
+    trailhead_attributes = get_trail_attributes(trail_id)
+
+    return render_template("trail_info.html", trailhead_attributes=trailhead_attributes)
 
 
 

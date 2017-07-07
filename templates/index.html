@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <script src="https://code.jquery.com/jquery.js"></script>
-  <link rel="stylesheet" href="static/stylesheet.css">
+  <link rel="stylesheet" href="/static/stylesheet.css">
   <title>Hike Finder</title>
 </head>
 
@@ -36,10 +36,14 @@
 
   <br>
 
-  
-
-
-  <script src="static/get_trail_list.js"></script>
+  <script>
+  function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 9,
+    center: {lat: 37.7749, lng: -122.4194}
+  });
+  }
+  </script>
 
   <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUcUHrh6UEkGE_Pn-XMqHwY_aftv8PJNU&callback=initMap">
