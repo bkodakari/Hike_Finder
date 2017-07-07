@@ -33,7 +33,11 @@ def get_local_hikes():
         return jsonify()
 
 
+@app.route("/trails/<trail_id>")
+def display_trail_info(trail_id):
+    """Make api call for trail attributes and display them."""
 
+    pass
 
 
 
