@@ -1,0 +1,12 @@
+{% extends 'index.html' %}
+{% block content %}
+
+
+  <form action="/local-hikes">
+    <input id="address" name="address" type="text" placeholder="Enter Address">
+    <input id="distance" name="distance" type="text" placeholder="Search Radius - optional">
+    <button id="submit" type="submit">Go!</button>
+  </form>
+
+
+{% endblock %}

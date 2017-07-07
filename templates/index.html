@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <link rel="stylesheet" href="static/stylesheet.css">
+  <title>Hike Finder</title>
+</head>
+
+
+<body>
+  <div>
+    <h1>HIKE FINDER</h1>
+    <h3>Where Do You Want To Hike Today?</h3>
+  </div>
+
+  <hr>
+
+  {% for message in get_flashed_messages() %}
+    <li> {{ message }}</li>
+  {% endfor %}
+
+    <hr>
+
+  <div id="map"></div>
+
+  <br>
+
+  {% block content %} put your content here {% endblock %}
+
+  <br> 
+
+  <div id="json_of_hikes">
+    <ul>
+    </ul>
+  </div>
+
+  <br>
+
+  
+
+
+  <script src="static/get_trail_list.js"></script>
+
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUcUHrh6UEkGE_Pn-XMqHwY_aftv8PJNU&callback=initMap">
+  </script>
+</body>
+</html>
