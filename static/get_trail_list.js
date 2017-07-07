@@ -6,23 +6,31 @@ function getList(evt){
   var formInputs = {
     'address':$('#address').val(),
     'distance':$('#distance').val()};
-  $.get('/local-hikes.json', formInputs, checkForData);
+  $.get('/local-hikes.json', formInputs, loadListOfHikes);
   console.log(formInputs);
 }
 
 //need intermediate check for data before calling loadListOfHikes... if no data, flash message.
 
 
-// flawed - logic is reversed and nothing happens when there is no data
-function checkForData(data) {
-  for(var prop in data) {
-    if (prop.hasOwnProperty(prop)){
-      alert("Search did not return any results, please try again.");
-    } else {
-      loadListOfHikes(data);
-    }
-  }
-}
+// flawed - nothing happens
+
+// function checkForData(data) {
+//   var d =  function (){for(var prop in data) {
+//         if (prop.hasOwnProperty(data)){
+//           return true;
+//         } else {
+//           return false;
+//         }
+//       }
+//   if (d === true){
+//     loadListOfHikes(data);
+//   } else{
+//       alert("Search did not return any results, please try again.");
+//   }
+// };
+// }
+
 
 function loadListOfHikes(data){
   var arrayTrailNames = [];
