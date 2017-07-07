@@ -2,9 +2,9 @@
 {% block content %}
 
 
-  <form action="/local-hikes">
-    <input id="address" name="address" type="text" placeholder="Enter Address">
-    <input id="distance" name="distance" type="text" placeholder="Search Radius">
+  <form action="/local-hikes" name="search_params">
+    <input id="address" name="address" type="text" placeholder="Enter Address" required>
+    <input id="distance" name="distance" type="text" placeholder="Search Radius" required>
     <button id="submit" type="submit">Go!</button>
   </form>
 

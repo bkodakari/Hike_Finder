@@ -1,5 +1,22 @@
 $('#submit').on('click', getList);
 
+// trying to validate form prior to submission, but preventDefault not working this way
+
+// function () {
+//     var x = document.forms["search_params"]["address"].value;
+//     var y = document.forms["search_params"]["distance"].value;
+//     if (x === "") {
+//         alert("Address must be filled out");
+//         return false;
+//     } else if (y === "") {
+//         alert("Distance must be filled out");
+//         return false;
+//     } else {
+//       getList(evt);
+//     }
+// });
+
+
 function getList(evt){
   evt.preventDefault();
   document.getElementById('json_of_hikes').innerHTML = ('');
