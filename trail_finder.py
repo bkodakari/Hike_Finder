@@ -60,6 +60,37 @@ def get_trail_attributes(trail_id):
     return attributes
 
 
-    # /api/v1/trailheads/[id]/attributes
-    # /api/v1/trailheads/[id]/photos
-    # /api/v1/trailheads/[id]/maps
+def get_trail_photos(trail_id):
+    """Make api call for trail photos and return them."""
+
+    r = requests.get("https://api.transitandtrails.org/api/v1/trailheads", params={
+        "key": ttkey,
+        "id": trail_id,
+        "photos": "photos"
+    }
+    )
+
+    photos = r.json()
+
+    list_of_photos = []
+
+    for photo in photos:
+        medium_photo = photo['medium']
+        list_of_photos.append(medium_photo)
+
+    return list_of_photos
+
+
+def get_trail_maps(trail_id):
+    """Make api call for trail maps and return them."""
+
+    r = requests.get("https://api.transitandtrails.org/api/v1/trailheads", params={
+        "key": ttkey,
+        "id": trail_id,
+        "maps": "maps"
+    }
+    )
+
+    trail_maps = r.json()
+
+    return trail_maps
