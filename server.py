@@ -2,7 +2,8 @@ from flask import Flask, render_template, request, jsonify
 import os
 from jinja2 import StrictUndefined
 from flask_debugtoolbar import DebugToolbarExtension
-from trail_finder import get_geocode, get_list_of_trails, get_trail_attributes, get_trail_photos, get_trail_maps
+from trail_finder import (get_geocode, get_list_of_trails, get_trail_attributes, 
+                          get_trail_photos, get_trail_maps)
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY']
@@ -19,6 +20,8 @@ def index():
 
 @app.route("/local-hikes.json")
 def get_local_hikes():
+    """tbd """
+
     address = request.args.get("address")
     distance = request.args.get("distance")
 
@@ -33,12 +36,12 @@ def get_local_hikes():
 def display_trail_info(trail_id):
     """Make api call for trail attributes and display them."""
 
-    trailhead_attributes = get_trail_attributes(trail_id)
-    list_of_photos = get_trail_photos(trail_id)
-    trail_maps = get_trail_maps(trail_id)
+    list_attributes = get_trail_attributes(trail_id)
+    list_photos = get_trail_photos(trail_id)
+    list_maps = get_trail_maps(trail_id)
 
-    return render_template("trail_info.html", trailhead_attributes=trailhead_attributes,
-                           list_of_photos=list_of_photos, trail_maps=trail_maps)
+    return render_template("trail_info.html", list_attributes=list_attributes,
+                           list_photos=list_photos, list_maps=list_maps)
 
 
 

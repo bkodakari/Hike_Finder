@@ -1,8 +1,8 @@
 "use strict";
 
 $('#submit').on('click', function (evt) {
-    var x = document.forms["search_params"]["address"].value;
-    var y = document.forms["search_params"]["distance"].value;
+    var x = $('#address').val();
+    var y = $('#distance').val();
     if (x === "") {
         alert("Address must be filled out");
         return false;
@@ -17,15 +17,16 @@ $('#submit').on('click', function (evt) {
 
 function getList(evt){
   evt.preventDefault();
-  document.getElementById('json_of_hikes').innerHTML = ('');
+
+  $('#json_of_hikes').innerHTML = ('');
   var formInputs = {
     'address':$('#address').val(),
     'distance':$('#distance').val()};
   $.get('/local-hikes.json', formInputs, loadListOfHikes);
-  console.log(formInputs);
 }
 
 function loadListOfHikes(data){
+
   if ($.isEmptyObject(data) === true){
     alert("Search did not return any results, please try again.");
   } else {
@@ -37,11 +38,12 @@ function loadListOfHikes(data){
     var arrayTrailLatLng = [];
 
     for (var i=0; i < arrayTrailNames.length; i++){
-    var lat = data[arrayTrailNames[i]][1];
-    var lng = data[arrayTrailNames[i]][2];
-    var latLng = new google.maps.LatLng(lat, lng);
-    arrayTrailLatLng.push(latLng);
-    document.getElementById('json_of_hikes').innerHTML += ('<li>'+'<a href="/trails/'+data[arrayTrailNames[i]][5]+'"">'+arrayTrailNames[i]+'</a></li>');
+      var lat = data[arrayTrailNames[i]][1];
+      var lng = data[arrayTrailNames[i]][2];
+      var latLng = new google.maps.LatLng(lat, lng);
+      arrayTrailLatLng.push(latLng);
+      $('#json_of_hikes').append('<li>'+'<a href="/trails/'+
+        data[arrayTrailNames[i]][5]+'"">'+arrayTrailNames[i]+'</a></li>');
     }
 
     var myLatlng = arrayTrailLatLng[0];
@@ -51,14 +53,13 @@ function loadListOfHikes(data){
       center: myLatlng
     };
 
-    
     var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
     for (var l=0; l < arrayTrailLatLng.length; l++){
       var marker = new google.maps.Marker({
       position: arrayTrailLatLng[l],
       title: arrayTrailNames[l],
-      });
+    });
 
   // how can i assign a window to each marker? Can't put a function inside a loop.
 

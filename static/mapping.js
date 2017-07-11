@@ -4,7 +4,7 @@ function initMap() {
     center: {lat: 37.7749, lng: -122.4194}
   });
   var geocoder = new google.maps.Geocoder();
-      document.getElementById('submit').addEventListener('submit', function(evt) {
+      $('#submit').addEventListener('submit', function(evt) {
     // evt.preventDefault();
     console.log("in callback");
     geocodeAddress(geocoder, map);

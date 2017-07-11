@@ -21,7 +21,10 @@ def get_geocode(address):
 
 def get_list_of_trails(latitude, longitude, distance):
     """Make api call for local trails."""
-    r = requests.get("https://api.transitandtrails.org/api/v1/trailheads", params={
+
+    api_base = "https://api.transitandtrails.org/api/v1/trailheads"
+
+    r = requests.get(api_base, params={
         "key": ttkey,
         "latitude": latitude,
         "longitude": longitude,
@@ -48,27 +51,32 @@ def get_list_of_trails(latitude, longitude, distance):
 
 def get_trail_attributes(trail_id):
     """Make api call for trail attributes and return them."""
-    r = requests.get("https://api.transitandtrails.org/api/v1/trailheads", params={
-        "key": ttkey,
-        "id": trail_id,
-        "attributes": "attributes"
-    }
-    )
+
+    api_base = "https://api.transitandtrails.org/api/v1/trailheads"
+
+    r = requests.get(api_base+"/%s/attributes" % (trail_id), params={
+                     "key": ttkey
+                     })
 
     attributes = r.json()
 
-    return attributes
+    list_attributes = []
+
+    for attr in attributes:
+        name = attr['name']
+        list_attributes.append(name)
+
+    return list_attributes
 
 
 def get_trail_photos(trail_id):
     """Make api call for trail photos and return them."""
 
-    r = requests.get("https://api.transitandtrails.org/api/v1/trailheads", params={
-        "key": ttkey,
-        "id": trail_id,
-        "photos": "photos"
-    }
-    )
+    api_base = "https://api.transitandtrails.org/api/v1/trailheads"
+
+    r = requests.get(api_base + "/%s/photos" % (trail_id), params={
+                     "key": ttkey,
+                     })
 
     photos = r.json()
 
@@ -77,6 +85,7 @@ def get_trail_photos(trail_id):
     for photo in photos:
         medium_photo = photo['medium']
         list_of_photos.append(medium_photo)
+        print "############# medium photo:", medium_photo
 
     return list_of_photos
 
@@ -84,13 +93,18 @@ def get_trail_photos(trail_id):
 def get_trail_maps(trail_id):
     """Make api call for trail maps and return them."""
 
-    r = requests.get("https://api.transitandtrails.org/api/v1/trailheads", params={
-        "key": ttkey,
-        "id": trail_id,
-        "maps": "maps"
-    }
-    )
+    api_base = "https://api.transitandtrails.org/api/v1/trailheads"
+
+    r = requests.get(api_base + "/%s/maps" % (trail_id), params={
+                     "key": ttkey,
+                     })
 
     trail_maps = r.json()
 
-    return trail_maps
+    list_maps = []
+
+    for maps in trail_maps:
+        url = maps['url']
+        list_maps.append(url)
+
+    return list_maps
