@@ -43,7 +43,7 @@ function loadListOfHikes(data){
       var latLng = new google.maps.LatLng(lat, lng);
       arrayTrailLatLng.push(latLng);
       $('#json_of_hikes').append('<li>'+'<a href="/trails/'+
-        data[arrayTrailNames[i]][5]+'"">'+arrayTrailNames[i]+'</a></li>');
+        data[arrayTrailNames[i]][4]+'"">'+arrayTrailNames[i]+'</a></li>');
     }
 
     var myLatlng = arrayTrailLatLng[0];

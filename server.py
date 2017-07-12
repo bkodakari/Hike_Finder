@@ -48,12 +48,12 @@ def get_local_hikes():
 def display_trail_info(trail_id):
     """Make api call for trail attributes and display them."""
 
-    # value = cache.get(trail_id)
-    # if value is not None:
-    #     print "######### cached trail_id value: ", value
-    #     return render_template("trail_info.html", list_attributes=value[0],
-    #                            list_photos=value[1], list_maps=value[2],
-    #                            dict_trail_info=value[3])
+    all_trail_data = cache.get(trail_id)
+    if all_trail_data is not None:
+        print "######### cached trail_id value: ", all_trail_data
+        return render_template("trail_info.html", list_attributes=all_trail_data[0],
+                               list_photos=all_trail_data[1], list_maps=all_trail_data[2],
+                               dict_trail_info=all_trail_data[3])
 
     list_attributes = get_trail_attributes(trail_id)
     list_photos = get_trail_photos(trail_id)
@@ -62,12 +62,24 @@ def display_trail_info(trail_id):
 
     all_trail_data = [list_attributes, list_photos, list_maps, dict_trail_info]
 
-    # cache.set(trail_id, all_trail_data, timeout=60*5)
+    cache.set(trail_id, all_trail_data, timeout=60*5)
+    # cache.set(trail_id_info, dict_trail_info, timeout=60*5)  ### no "trail_id_info"
     print "########## new trail_id value: ", all_trail_data
     return render_template("trail_info.html", list_attributes=all_trail_data[0],
                            list_photos=all_trail_data[1], list_maps=all_trail_data[2],
                            dict_trail_info=all_trail_data[3])
 
+
+@app.route("/trail/<trail_id>.json")
+def get_trail_data(trail_id):
+    """ Get data for a specific trail_id and return it to JS via an Ajax call."""
+
+    all_trail_data = cache.get(trail_id)
+    if all_trail_data is not None:
+        print "##### cached trail_id value json route:", all_trail_data[3]
+        return jsonify(all_trail_data[3])
+    else:
+        print "###########  FAILED LOGIC"
 
 
 

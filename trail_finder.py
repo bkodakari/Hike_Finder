@@ -65,7 +65,6 @@ def get_trailhead_info(trail_id):
                        "longitude": info["longitude"],
                        "park_name": info["park_name"]}
 
-    print "################ dict_trail_info: ", dict_trail_info
     return dict_trail_info
 
 
