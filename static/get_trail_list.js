@@ -18,7 +18,7 @@ $('#submit').on('click', function (evt) {
 function getList(evt){
   evt.preventDefault();
 
-  $('#json_of_hikes').innerHTML = ('');
+  $('#json_of_hikes').html('');
   var formInputs = {
     'address':$('#address').val(),
     'distance':$('#distance').val()};

@@ -19,7 +19,7 @@ def get_geocode(address):
     return latitude, longitude
 
 
-def get_list_of_trails(latitude, longitude, distance):
+def get_dict_of_trails(latitude, longitude, distance):
     """Make api call for local trails."""
 
     api_base = "https://api.transitandtrails.org/api/v1/trailheads"
@@ -34,19 +34,39 @@ def get_list_of_trails(latitude, longitude, distance):
     trails = r.json()
 
     dict_of_trails = {}
-    dict_of_lat_lng = {}
 
     for trail in trails:
-        name = trail['name']
-        latitude = trail['latitude']
-        longitude = trail['longitude']
-        description = trail['description']
-        park_name = trail['park_name']
-        trail_id = trail['id']
-        dict_of_lat_lng[trail_id] = [latitude, longitude]
-        dict_of_trails[name] = [name, latitude, longitude, description, park_name, trail_id]
+        name = trail["name"]
+        latitude = trail["latitude"]
+        longitude = trail["longitude"]
+        park_name = trail["park_name"]
+        trail_id = trail["id"]
+        dict_of_trails[name] = [name, latitude, longitude,
+                                park_name, trail_id]
 
-    return [dict_of_trails, dict_of_lat_lng]
+    return dict_of_trails
+
+
+def get_trailhead_info(trail_id):
+    """Make api call for trailhead information and return them."""
+
+    api_base = "https://api.transitandtrails.org/api/v1/trailheads"
+
+    r = requests.get(api_base+"/%s" % (trail_id), params={
+                     "key": ttkey
+                     })
+
+    info = r.json()
+
+    dict_trail_info = {"name": info["name"],
+                       "description": info["description"],
+                       "trail_id": info["id"],
+                       "latitude": info["latitude"],
+                       "longitude": info["longitude"],
+                       "park_name": info["park_name"]}
+
+    print "################ dict_trail_info: ", dict_trail_info
+    return dict_trail_info
 
 
 def get_trail_attributes(trail_id):
@@ -66,6 +86,7 @@ def get_trail_attributes(trail_id):
         name = attr['name']
         list_attributes.append(name)
 
+    print "################ list_attributes: ", list_attributes
     return list_attributes
 
 
@@ -107,4 +128,5 @@ def get_trail_maps(trail_id):
         url = maps['url']
         list_maps.append(url)
 
+    print "############### list_ maps: ", list_maps
     return list_maps

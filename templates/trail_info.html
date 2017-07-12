@@ -1,34 +1,37 @@
 {% extends 'index.html' %}
 {% block content %}
 
-trail info sheet
+<h3>Trail Information</h3>
 
-<h5>trail maps:</h5> 
 
-    {% for map in list_maps %}
-        <a href="{{ map }}">{{ map }}</a>
-    {% endfor %}
-
-<br>
-
-<h5>trailhead attributes:</h5> 
-    <ul>
-        {% for item in list_attributes %}
-            <li> {{ item }} </li>
+{% if list_maps %}
+    <h5>trail maps:</h5> 
+        {% for map in list_maps %}
+            <a href="{{ map }}">{{ map }}</a>
         {% endfor %}
-    </ul>
+{% endif %}
+
 <br>
 
+{% if list_attributes %}
+    <h5>trailhead attributes:</h5> 
+        <ul>
+            {% for item in list_attributes %}
+                <li> {{ item }} </li>
+            {% endfor %}
+        </ul>
+{% endif %}
 
+<br>
+
+{% if list_photos %}
     <h5>trail photos:</h5> 
-
         {% for item in list_photos %}
             <img src="https:{{ item }}"> <br>
         {% endfor %}
-
+{% endif %}
 
 <br>
-
 
 
 {% endblock %}

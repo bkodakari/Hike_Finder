@@ -3,8 +3,8 @@
   /* Always set the map height explicitly to define the size of the div
    * element that contains the map. */
 #map {
-  height: 40%;
-  width: 100%;
+  height: 50%;
+  width: 75%;
 }
 /* Optional: Makes the sample page fill the window. */
 html, body {
