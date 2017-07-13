@@ -5,6 +5,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.contrib.cache import SimpleCache
 from trail_finder import (get_geocode, get_dict_of_trails, get_trail_attributes,
                           get_trail_photos, get_trail_maps, get_trailhead_info)
+from forecast import get_forecast
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY']
@@ -51,28 +52,43 @@ def display_trail_info(trail_id):
     all_trail_data = cache.get(trail_id)
     if all_trail_data is not None:
         print "######### cached trail_id value: ", all_trail_data
-        return render_template("trail_info.html", list_attributes=all_trail_data[0],
-                               list_photos=all_trail_data[1], list_maps=all_trail_data[2],
-                               dict_trail_info=all_trail_data[3])
+        return render_template("trail_info.html",
+                               list_attributes=all_trail_data[0],
+                               list_photos=all_trail_data[1],
+                               list_maps=all_trail_data[2],
+                               dict_trail_info=all_trail_data[3],
+                               trail_id=trail_id,
+                               forecast=all_trail_data[4])
 
     list_attributes = get_trail_attributes(trail_id)
     list_photos = get_trail_photos(trail_id)
     list_maps = get_trail_maps(trail_id)
     dict_trail_info = get_trailhead_info(trail_id)
+    forecast = get_forecast(37.7749, -122.4194)
 
-    all_trail_data = [list_attributes, list_photos, list_maps, dict_trail_info]
+    all_trail_data = [list_attributes,
+                      list_photos,
+                      list_maps,
+                      dict_trail_info,
+                      forecast]
 
     cache.set(trail_id, all_trail_data, timeout=60*5)
     # cache.set(trail_id_info, dict_trail_info, timeout=60*5)  ### no "trail_id_info"
     print "########## new trail_id value: ", all_trail_data
-    return render_template("trail_info.html", list_attributes=all_trail_data[0],
-                           list_photos=all_trail_data[1], list_maps=all_trail_data[2],
-                           dict_trail_info=all_trail_data[3])
+    return render_template("trail_info.html",
+                           list_attributes=all_trail_data[0],
+                           list_photos=all_trail_data[1],
+                           list_maps=all_trail_data[2],
+                           dict_trail_info=all_trail_data[3],
+                           trail_id=trail_id,
+                           forecast=all_trail_data[4])
 
 
 @app.route("/trail/<trail_id>.json")
 def get_trail_data(trail_id):
     """ Get data for a specific trail_id and return it to JS via an Ajax call."""
+
+    print "############ trail_id", trail_id
 
     all_trail_data = cache.get(trail_id)
     if all_trail_data is not None:

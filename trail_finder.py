@@ -6,6 +6,8 @@ ggkey = os.environ['GOOGLE_MAPS_GEOCODE_API_KEY']
 
 
 def get_geocode(address):
+    """ Take address input from user and get latitue and longitude equivalents. """
+
     r = requests.get("https://maps.googleapis.com/maps/api/geocode/json", params={
         "address": address,
         "key": ggkey,
