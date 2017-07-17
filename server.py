@@ -57,20 +57,20 @@ def display_trail_info(trail_id):
                                list_photos=all_trail_data[1],
                                list_maps=all_trail_data[2],
                                dict_trail_info=all_trail_data[3],
-                               trail_id=trail_id,
-                               forecast=all_trail_data[4])
+                               trail_id=trail_id)
 
     list_attributes = get_trail_attributes(trail_id)
     list_photos = get_trail_photos(trail_id)
     list_maps = get_trail_maps(trail_id)
     dict_trail_info = get_trailhead_info(trail_id)
-    forecast = get_forecast(37.7749, -122.4194)
+
+    # calling from python/server or ajax/JS?
+    # forecast = get_forecast(37.7749, -122.4194)
 
     all_trail_data = [list_attributes,
                       list_photos,
                       list_maps,
-                      dict_trail_info,
-                      forecast]
+                      dict_trail_info]
 
     cache.set(trail_id, all_trail_data, timeout=60*5)
     # cache.set(trail_id_info, dict_trail_info, timeout=60*5)  ### no "trail_id_info"
@@ -80,8 +80,7 @@ def display_trail_info(trail_id):
                            list_photos=all_trail_data[1],
                            list_maps=all_trail_data[2],
                            dict_trail_info=all_trail_data[3],
-                           trail_id=trail_id,
-                           forecast=all_trail_data[4])
+                           trail_id=trail_id)
 
 
 @app.route("/trail/<trail_id>.json")
