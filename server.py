@@ -66,16 +66,13 @@ def display_trail_info(trail_id):
     list_maps = get_trail_maps(trail_id)
     dict_trail_info = get_trailhead_info(trail_id)
 
-    # calling from python/server or ajax/JS?
-    # forecast = get_forecast(37.7749, -122.4194)
-
     all_trail_data = [list_attributes,
                       list_photos,
                       list_maps,
                       dict_trail_info]
 
     cache.set(trail_id, all_trail_data, timeout=60*5)
-    # cache.set(trail_id_info, dict_trail_info, timeout=60*5)  ### no "trail_id_info"
+
     print "########## new trail_id value: ", all_trail_data
     return render_template("trail_info.html",
                            list_attributes=all_trail_data[0],
