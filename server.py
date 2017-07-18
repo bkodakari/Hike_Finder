@@ -1,11 +1,13 @@
-from flask import Flask, render_template, request, jsonify, session
+from flask import (Flask, render_template, request,
+                   jsonify, session, redirect, flash)
 import os
 from jinja2 import StrictUndefined
 from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.contrib.cache import SimpleCache
 from trail_finder import (get_geocode, get_dict_of_trails, get_trail_attributes,
                           get_trail_photos, get_trail_maps, get_trailhead_info)
-from forecast import get_forecast
+# from forecast import get_forecast
+from model import connect_to_db, db, User, Trail, Favorite, Rating, Photo
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY']
@@ -97,6 +99,83 @@ def get_trail_data(trail_id):
         print "###########  FAILED LOGIC"
 
 
+@app.route("/register", methods=["GET"])
+def registration_form():
+    """ Show form for user registration. """
+
+    return render_template("registration_form.html")
+
+
+@app.route('/register', methods=["POST"])
+def registration_process():
+    """Process registration."""
+
+    f_name = request.form["f_name"]
+    l_name = request.form["l_name"]
+    username = request.form["username"]
+    email = request.form["email"]
+    password = request.form["password"]
+
+    new_user = User(f_name=f_name, l_name=l_name, username=username,
+                    email=email, password=password)
+
+    db.session.add(new_user)
+    db.session.commit()
+
+    user = User.query.filter_by(username=username).first()
+    session["user_id"] = user.user_id
+
+    flash("User %s %s added." % (f_name, l_name))
+    return redirect("/")
+
+
+@app.route('/login', methods=["GET"])
+def login_form():
+    """ Show login form. """
+
+    return render_template("login_form.html")
+
+
+@app.route('/login', methods=['POST'])
+def login_process():
+    """Process login."""
+
+    # Get form variables
+    username = request.form["username"]
+    password = request.form["password"]
+
+    user = User.query.filter_by(username=username).first()
+
+    if not user:
+        flash("No such user")
+        return redirect("/login")
+
+    if user.password != password:
+        flash("Incorrect password")
+        return redirect("/login")
+
+    session["user_id"] = user.user_id
+
+    flash("Welcome back, %s!" % (user.f_name))
+    return redirect("/user/%s" % (user.user_id))
+
+
+@app.route('/logout')
+def logout():
+    """Log out."""
+
+    del session["user_id"]
+    flash("Logged Out.")
+    return redirect("/")
+
+
+@app.route('/user/<user_id>')
+def display_user_info(user_id):
+    """ Take users to their personal information page. """
+
+    user = User.query.get(user_id)
+    return render_template("user_page.html", user=user)
+
 
 
 
@@ -106,7 +185,7 @@ if __name__ == "__main__":
     app.debug = True
     app.jinja_env.auto_reload = app.debug  # make sure templates, etc. are not cached in debug mode
 
-    # connect_to_db(app)
+    connect_to_db(app)
 
     # Use the DebugToolbar
     DebugToolbarExtension(app)

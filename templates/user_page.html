@@ -1,0 +1,31 @@
+{% extends 'index.html' %}
+{% block content %}
+  <form action="/local-hikes" name="search_params">
+    Starting Point: <input id="address" name="address" type="text" placeholder="Enter Address" required>
+    Search Radius: <input id="distance" name="distance" type="text" placeholder="Search Radius" value=10 required>
+    <button id="submit" type="submit">Go!</button>
+  </form>
+
+  <h1>Welcome Back {{ user.f_name }} {{ user.l_name }}!</h1>
+
+  <p>Username: {{ user.username }}</p>
+  {% if user.email %}
+  <p>Email: {{ user.email }}</p>
+  {% endif %}
+
+  {% if user.ratings %}
+
+    <h2>Ratings</h2>
+    <ul>
+    {% for rating in user.ratings %}
+      <li>
+        <a href="/trails/{{ rating.trail_id }}">{{ rating.trail.trail_name }}</a>
+        was rated {{ rating.rating }}
+      </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+
+
+<script src="/static/get_trail_list.js"></script>
+{% endblock %}

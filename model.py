@@ -24,8 +24,8 @@ class User(db.Model):
                          unique=True,)
     email = db.Column(db.Text,
                       nullable=False,)
-    password = db.Colum(db.String(20),
-                        nullable=False,)
+    password = db.Column(db.String(20),
+                         nullable=False,)
 
     def __repr__(self):
         """Provide helpful representation when printed."""
@@ -40,7 +40,7 @@ class Trail(db.Model):
 
     trail_id = db.Column(db.Integer,
                          primary_key=True,)
-    trail_name = db.Column(db.text,
+    trail_name = db.Column(db.Text,
                            nullable=False,)
 
     def __repr__(self):
@@ -118,12 +118,12 @@ class Photo(db.Model):
                          primary_key=True,
                          autoincrement=True,)
     trail_id = db.Column(db.Integer,
-                         db.ForeignKey("trail.trail_id"),
+                         db.ForeignKey("trails.trail_id"),
                          nullable=False,)
     user_id = db.Column(db.Integer,
                         db.ForeignKey("users.user_id"),
                         nullable=False,)
-    photo = db.Column(db.text,
+    photo = db.Column(db.Text,
                       nullable=False)
 
     # Define relationship to user
@@ -146,8 +146,17 @@ class Photo(db.Model):
 def connect_to_db(app):
     """Connect to database."""
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:/// _________ '
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///traildb'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    # app.config['SQLALCHEMY_ECHO'] = True
     db.app = app
     db.init_app(app)
+
+
+if __name__ == "__main__":
+    # As a convenience, if we run this module interactively, it will leave
+    # you in a state of being able to work with the database directly.
+
+    from server import app
+
+    connect_to_db(app)
+    print "Connected to DB."

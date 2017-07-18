@@ -1,6 +1,6 @@
 "use strict";
 
-$(document).ready(getMappingData);
+$(window).on("load", getMappingData);
 
 function getMappingData(){
   var trailId = $('#trailId').data('trailid');
