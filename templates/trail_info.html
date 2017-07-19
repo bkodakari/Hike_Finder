@@ -1,8 +1,13 @@
 {% extends 'index.html' %}
 {% block content %}
 
-<h3 id="trailId" data-trailid="{{ trail_id }}">
-    {{ dict_trail_info["name"] }} Information
+<h3 id="trailId" data-trailid="{{ trail_id }}" data-trailname="{{ dict_trail_info["name"] }}">
+  {{ dict_trail_info["name"] }} Information  
+  {% if "user_id" in session %}
+    <div class="favorite">
+      <span><input id="heart" name="heart" type="radio"><label for="heart">&#9825</label></span>
+    </div>
+  {% endif %}
 </h3>
 
 {% if dict_trail_info["park_name"] %}
@@ -13,53 +18,54 @@
 
 
 {% if "user_id" in session %}
-<div class="rating">
-    <span><input type="radio" name="rating" id="str5" value="5"><label for="str5"></label></span>
-    <span><input type="radio" name="rating" id="str4" value="4"><label for="str4"></label></span>
-    <span><input type="radio" name="rating" id="str3" value="3"><label for="str3"></label></span>
-    <span><input type="radio" name="rating" id="str2" value="2"><label for="str2"></label></span>
-    <span><input type="radio" name="rating" id="str1" value="1"><label for="str1"></label></span>
-</div>
+  <div class="rating">
+    <span><input id="star5" name="rating" type="radio" value="5"><label for="star5">☆</label></span>
+    <span><input id="star4" name="rating" type="radio" value="4"><label for="star4">☆</label></span>
+    <span><input id="star3" name="rating" type="radio" value="3"><label for="star3">☆</label></span>
+    <span><input id="star2" name="rating" type="radio" value="2"><label for="star2">☆</label></span>
+    <span><input id="star1" name="rating" type="radio" value="1"><label for="star1">☆</label></span>
+  </div>
 {% endif %}
 
 <br>
 
 {% if dict_trail_info['description'] %}
-    <h5>DESCRIPTION</h5>
-        {{ dict_trail_info['description'] }}
+  <h5>DESCRIPTION</h5>
+    {{ dict_trail_info['description'] }}
 {% endif %}
 
 <br>
 
 {% if list_maps %}
-    <h5>trail maps:</h5> 
-        {% for map in list_maps %}
-            <a href="{{ map }}">{{ map }}</a>
-        {% endfor %}
+  <h5>trail maps:</h5> 
+    {% for map in list_maps %}
+      <a href="{{ map }}">{{ map }}</a>
+    {% endfor %}
 {% endif %}
 
 <br>
 
 {% if list_attributes %}
-    <h5>trailhead attributes:</h5> 
-        <ul>
-            {% for item in list_attributes %}
-                <li> {{ item }} </li>
-            {% endfor %}
-        </ul>
+  <h5>trailhead attributes:</h5> 
+  <ul>
+    {% for item in list_attributes %}
+      <li> {{ item }} </li>
+    {% endfor %}
+  </ul>
 {% endif %}
 
 <br>
 
 {% if list_photos %}
-    <h5>trail photos:</h5> 
-        {% for item in list_photos %}
-            <img src="https:{{ item }}"> <br>
-        {% endfor %}
+  <h5>trail photos:</h5> 
+  {% for item in list_photos %}
+    <img src="https:{{ item }}"> <br>
+  {% endfor %}
 {% endif %}
 
 <br>
 
 <script src="/static/trail_info_marker.js"></script>
+<script src="/static/ratings.js"></script>
 
 {% endblock %}

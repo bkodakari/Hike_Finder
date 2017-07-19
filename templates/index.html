@@ -15,9 +15,9 @@
 
   <div>
     {% if "user_id" in session %}
-    Logged in as: {{ user.f_name }}<br> 
+    Logged in as: {{ session["user_id"]["f_name"] }}<br> 
     <a href="/logout">Logout</a> <br>
-    <a href="/user/<user_id>">Profile</a>
+    <a href="/user/{{ session["user_id"]["user_id"] }}">Profile</a>
     {% else %}
     <a href="/login">Login</a> <br>
     <a href="/register">Register</a>

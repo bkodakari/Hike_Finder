@@ -14,30 +14,34 @@ html, body {
 }
 
 
-/* ratings */
+/* rating */
 .rating {
-    float:left;
-    width:200px;
+  width: 300px;
+  float:left;
 }
-.rating span { float:right; position:relative; }
+
+.rating span { 
+  float:right; 
+  position:relative; }
+
 .rating span input {
-    position:absolute;
-    top:0;
-    left:0;
-    opacity:0;
+  position:absolute;
+  top:0px;
+  left:0px;
+  opacity:0;
 }
 .rating span label {
-    display:inline-block;
-    width:20px;
-    height:20px;
-    text-align:center;
-    color:#FFF;
-    background:#ccc;
-    font-size:20px;
-    margin-right:2px;
-    line-height:20px;
-    border-radius:50%;
-    -webkit-border-radius:50%;
+  display:inline-block;
+  width:30px;
+  height:30px;
+  text-align:center;
+  color:#FFF;
+  background:#ccc;
+  font-size:30px;
+  margin-right:2px;
+  line-height:30px;
+  border-radius:50%;
+  -webkit-border-radius:50%;
 }
 .rating span:hover ~ span label,
 .rating span:hover label,
@@ -46,3 +50,41 @@ html, body {
     background:#F90;
     color:#FFF;
 }
+
+/* favorite */
+/*.favorite {
+  width: 300px;
+  float:left;
+}
+
+.favorite span { 
+  float:right; 
+  position:relative; }
+
+.favorite span input {
+  position:absolute;
+  top:0px;
+  left:0px;
+  opacity:0;
+}
+.favorite span label {
+  display:inline-block;
+  width:30px;
+  height:30px;
+  text-align:center;
+  color:#FFF;
+  background:#ccc;
+  font-size:30px;
+  margin-right:2px;
+  line-height:30px;
+  border-radius:50%;
+  -webkit-border-radius:50%;
+}
+.favorite span:hover ~ span label,
+.favorite span:hover label,
+.favorite span.checked label,
+.favorite span.checked ~ span label {
+    content: "\2665";
+    background:#F90;
+    color:#ff0028;
+}*/

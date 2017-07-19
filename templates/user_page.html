@@ -6,11 +6,11 @@
     <button id="submit" type="submit">Go!</button>
   </form>
 
-  <h1>Welcome Back {{ user.f_name }} {{ user.l_name }}!</h1>
+  <h1>Welcome Back {{ session["user_id"]["f_name"] }} {{ session["user_id"]["l_name"] }}!</h1>
 
-  <p>Username: {{ user.username }}</p>
+  <p>Username: {{ session["user_id"]["username"] }}</p>
   {% if user.email %}
-  <p>Email: {{ user.email }}</p>
+  <p>Email: {{ session["user_id"]["email"] }}</p>
   {% endif %}
 
   {% if user.ratings %}

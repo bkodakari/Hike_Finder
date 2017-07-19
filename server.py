@@ -151,7 +151,11 @@ def login_process():
         flash("Incorrect password")
         return redirect("/login")
 
-    session["user_id"] = user.user_id
+    session["user_id"] = {"user_id": user.user_id,
+                          "username": user.username,
+                          "f_name": user.f_name,
+                          "l_name": user.l_name,
+                          "email": user.email}
 
     flash("Welcome back, %s!" % (user.f_name))
     return redirect("/user/%s" % (user.user_id))
@@ -173,6 +177,33 @@ def display_user_info(user_id):
     user = User.query.get(user_id)
     return render_template("user_page.html", user=user)
 
+
+@app.route('/ratings.json')
+def record_ratings():
+
+    trail_id = request.args.get("trailId")
+    user_id = session["user_id"]["user_id"]
+    rating = request.args.get("rating")
+    trail_name = request.args.get("trailName")
+
+    print "trail_id: ", trail_id
+    print "user_id: ", user_id
+    print "rating: ", rating
+    print "trail_name: ", trail_name
+
+    trail = Trail.query.get(trail_id)
+
+    if not trail:
+        new_trail = Trail(trail_id=trail_id, trail_name=trail_name)
+        db.session.add(new_trail)
+        db.session.commit()
+
+    new_rating = Rating(trail_id=trail_id, user_id=user_id, rating=rating)
+
+    db.session.add(new_rating)
+    db.session.commit()
+
+    return jsonify(rating)
 
 
 
