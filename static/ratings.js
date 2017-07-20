@@ -9,63 +9,71 @@ $(document).ready(function(){
     $(this).parent().addClass('checked');
   });
 
-  $('input:radio').change( function(){
+  $('.rating input:radio').change( function(){
     var trailId = $('#trailId').data('trailid');
     var rating = this.value;
     var formInputs = {
       'trailId':$('#trailId').data('trailid'),
       'rating':this.value,
       'trailName':$('#trailId').data('trailname')};
-    $.get('/ratings.json', formInputs, printRating);
-    alert(trailId + rating);
+    $.post('/ratings.json', formInputs, printRating);
     });
 });
 
 function printRating(data){
-  alert("Thank You for your rating of: "+data);
+  alert("Thank You for your rating of: "+data+"stars");
 }
 
 
+$(function () { // this is the jquery shortcut for document.ready()
 
-// $('#rating').on('click', function (e){
-//   console.log(e);
-//   var name = this.id;
-//   console.log('name: ' + name);
-//   var stars = $('input[name="star"]:checked').val();
-//   console.log("stars: "+stars);
-//   alert("name: "+name);
-//   console.log("i'm here")
-//   //   e.stopPropagation();
-//   // e.preventDefault();  
+  function addToFavorites(evt) {
 
-// });
+    var id = this.id; // this is the id on the button we clicked, which is the image's id
 
+      $.post("/add-to-favorites.json", {'id': id, 'trailId':$('#trailId').data('trailid'),
+             'trailName':$('#trailId').data('trailname')}, addToFavoritesSuccess);
+    }
 
-//   var formInputs = {
-//     'trailId':$('#trailId').data('trailid'),
-//     'stars':$("#"+name:'checked').val()};
-//   $.get('/ratings.json', formInputs, printRating);
-// });
+    function addToFavoritesSuccess(result) {
+        alert("Thank You, "+result.trailName+" has been added to your list of favorites."); 
 
-// function printRating(data){
-//   alert("Thank You for your rating of: "+data);
-// }
+        var id = result.id;
+
+        $('#' + id).css('color', 'red'); // give our user some feedback
+    }
+
+    $('#heart').click(addToFavorites);
+
+}); 
 
 
-// $('#rating').on('click', function(evt){
-//     evt.preventDefault();
-//     console.log($('input[name="star"]:checked').val());
-//     // Check Radio-box
-//     $(".rating input:radio").attr("checked", false);
 
-//     $('.rating input').click(function () {
-//         $(".rating span").removeClass('checked');
-//         $(this).parent().addClass('checked');
+
+
+
+
+
+// $(document).ready(function(){
+// //  Check Radio-box
+//   $(".favorite input:radio").attr("checked", false);
+//   $('.favorite input').click(function () {
+//     $(".favorite span").removeClass('checked');
+//     $(this).parent().addClass('checked');
+//   });
+
+//   $('input:radio').change( function(){
+//     var trailId = $('#trailId').data('trailid');
+//     var favorite = this.value;
+//     var formInputs = {
+//       'trailId':$('#trailId').data('trailid'),
+//       'favorite':this.value,
+//       'trailName':$('#trailId').data('trailname')};
+//     $.get('/favorite.json', formInputs, printFavorite);
+//     alert(trailId + favorite);
 //     });
-
-//     $('input:radio').change(
-//       function(){
-//         var userRating = this.value;
-//         alert(userRating);
-//     }); 
 // });
+
+// function printFavorite(data){
+//   alert("Thank You, "+data+" has been added to your list of favorites.");
+// }

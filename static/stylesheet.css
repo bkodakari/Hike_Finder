@@ -79,12 +79,12 @@ html, body {
   line-height:30px;
   border-radius:50%;
   -webkit-border-radius:50%;
-}
+  }
+
 .favorite span:hover ~ span label,
 .favorite span:hover label,
 .favorite span.checked label,
 .favorite span.checked ~ span label {
     content: "\2665";
-    background:#F90;
     color:#ff0028;
 }*/

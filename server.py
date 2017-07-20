@@ -178,13 +178,13 @@ def display_user_info(user_id):
     return render_template("user_page.html", user=user)
 
 
-@app.route('/ratings.json')
+@app.route('/ratings.json', methods=['POST'])
 def record_ratings():
 
-    trail_id = request.args.get("trailId")
+    trail_id = request.form.get("trailId")
     user_id = session["user_id"]["user_id"]
-    rating = request.args.get("rating")
-    trail_name = request.args.get("trailName")
+    rating = request.form.get("rating")
+    trail_name = request.form.get("trailName")
 
     print "trail_id: ", trail_id
     print "user_id: ", user_id
@@ -205,6 +205,33 @@ def record_ratings():
 
     return jsonify(rating)
 
+
+@app.route('/add-to-favorites.json', methods=['POST'])
+def record_favorites():
+
+    trail_id = request.form.get("trailId")
+    user_id = session["user_id"]["user_id"]
+    trail_name = request.form.get("trailName")
+    tag_id = request.form.get("id")
+
+    print "trail_id: ", trail_id
+    print "user_id: ", user_id
+    print "trail_name: ", trail_name
+
+    trail = Trail.query.get(trail_id)
+
+    if not trail:
+        new_trail = Trail(trail_id=trail_id, trail_name=trail_name)
+        db.session.add(new_trail)
+        db.session.commit()
+
+    new_favorite = Favorite(trail_id=trail_id, user_id=user_id)
+
+    db.session.add(new_favorite)
+    db.session.commit()
+
+    response = {'trailName': trail_name, 'id': tag_id}
+    return jsonify(response)
 
 
 if __name__ == "__main__":
