@@ -48,3 +48,25 @@ function printFavorite(response){
   alert(response.trailName);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

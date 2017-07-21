@@ -49,14 +49,27 @@ def get_local_hikes():
 def display_trail_info(trail_id):
     """Make api call for trail attributes and display them."""
 
+    if "user_id" in session:
+        user_id = session["user_id"]["user_id"]
+        existing_rating = Rating.query.filter_by(trail_id=trail_id,
+                                                 user_id=user_id).first()
+        existing_favorite = Favorite.query.filter_by(trail_id=trail_id,
+                                                     user_id=user_id).first()
+    else:
+        existing_rating = False
+        existing_favorite = False
+
     all_trail_data = cache.get(trail_id)
+
     if all_trail_data is not None:
         return render_template("trail_info.html",
                                list_attributes=all_trail_data[0],
                                list_photos=all_trail_data[1],
                                list_maps=all_trail_data[2],
                                dict_trail_info=all_trail_data[3],
-                               trail_id=trail_id)
+                               trail_id=trail_id,
+                               existing_favorite=existing_favorite,
+                               existing_rating=existing_rating)
 
     list_attributes = get_trail_attributes(trail_id)
     list_photos = get_trail_photos(trail_id)
@@ -75,7 +88,9 @@ def display_trail_info(trail_id):
                            list_photos=all_trail_data[1],
                            list_maps=all_trail_data[2],
                            dict_trail_info=all_trail_data[3],
-                           trail_id=trail_id)
+                           trail_id=trail_id,
+                           existing_favorite=existing_favorite,
+                           existing_rating=existing_rating)
 
 
 @app.route("/trail/<trail_id>.json")

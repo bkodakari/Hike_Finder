@@ -4,17 +4,34 @@
 <h3 id="trailId" data-trailid="{{ trail_id }}" data-trailname="{{ dict_trail_info["name"] }}">
   {{ dict_trail_info["name"] }} Information  
   {% if "user_id" in session %}
-    <div class="favorite">
-      <span><input id="heart" name="favorite" type="button" ><label for="heart">♡ Favorite</label></span>
-    </div>
+
+  <!-- toggle? need to switch class -->
+    {% if existing_favorite %}
+    <!-- needs to start as red and update to "unchecked" when clicked -->
+      <div class="favorite">
+        <span><input id="heart" name="favorite" type="button" ><label for="heart">♡ Favorite</label></span>
+      </div>
+    {% else %}
+      <div class="favorite">
+        <span><input id="heart" name="favorite" type="button" ><label for="heart">♡ Favorite</label></span>
+      </div>
+    {% endif %}
+
     <br>
-    <div class="rating">
-      <span><input id="star5" name="rating" type="radio" value="5"><label for="star5">☆</label></span>
-      <span><input id="star4" name="rating" type="radio" value="4"><label for="star4">☆</label></span>
-      <span><input id="star3" name="rating" type="radio" value="3"><label for="star3">☆</label></span>
-      <span><input id="star2" name="rating" type="radio" value="2"><label for="star2">☆</label></span>
-      <span><input id="star1" name="rating" type="radio" value="1"><label for="star1">☆</label></span>
-    </div>
+
+    {% if existing_rating %}
+      <!-- to update, i need to switch the class rather than just display -->
+      You rated this {{ existing_rating.rating }} stars.
+    {% else %}
+      <div class="rating">
+        <span><input id="star5" name="rating" type="radio" value="5"><label for="star5">☆</label></span>
+        <span><input id="star4" name="rating" type="radio" value="4"><label for="star4">☆</label></span>
+        <span><input id="star3" name="rating" type="radio" value="3"><label for="star3">☆</label></span>
+        <span><input id="star2" name="rating" type="radio" value="2"><label for="star2">☆</label></span>
+        <span><input id="star1" name="rating" type="radio" value="1"><label for="star1">☆</label></span>
+      </div>
+    {% endif %}
+
     <br>
   {% endif %}
 </h3>

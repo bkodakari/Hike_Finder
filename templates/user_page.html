@@ -13,9 +13,19 @@
   <p>Email: {{ session["user_id"]["email"] }}</p>
   {% endif %}
 
-  {% if user.ratings %}
+  {% if user.favorites %}
+    <h2>Your Favorite Trails</h2>
+    <ul>
+    {% for favorite in user.favorites %}
+      <li>
+        <a href="/trails/{{ favorite.trail_id }}">{{ favorite.trail.trail_name }}</a>
+      </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
 
-    <h2>Ratings</h2>
+  {% if user.ratings %}
+    <h2>Your Trail Ratings</h2>
     <ul>
     {% for rating in user.ratings %}
       <li>
