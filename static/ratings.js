@@ -20,60 +20,31 @@ $(document).ready(function(){
     });
 });
 
-function printRating(data){
-  alert("Thank You for your rating of: "+data+"stars");
+function printRating(response){
+  alert(response);
 }
 
 
-$(function () { // this is the jquery shortcut for document.ready()
+$(document).ready(function(){
+//  select button
+  $(".favorite input:button").attr("checked", false);
+  $('.favorite input:button').click(function () {
+    $(".favorite span").removeClass('checked');
+    $(this).parent().addClass('checked');
+  });
 
-  function addToFavorites(evt) {
+  $('.favorite input:button').click( function(){
+    var trailId = $('#trailId').data('trailid');
+    var favorite = this.value;
+    var formInputs = {
+      'trailId':$('#trailId').data('trailid'),
+      'favorite':this.value,
+      'trailName':$('#trailId').data('trailname')};
+    $.post('/add-to-favorites.json', formInputs, printFavorite);
+    });
+});
 
-    var id = this.id; // this is the id on the button we clicked, which is the image's id
+function printFavorite(response){
+  alert(response.trailName);
+}
 
-      $.post("/add-to-favorites.json", {'id': id, 'trailId':$('#trailId').data('trailid'),
-             'trailName':$('#trailId').data('trailname')}, addToFavoritesSuccess);
-    }
-
-    function addToFavoritesSuccess(result) {
-        alert("Thank You, "+result.trailName+" has been added to your list of favorites."); 
-
-        var id = result.id;
-
-        $('#' + id).css('color', 'red'); // give our user some feedback
-    }
-
-    $('#heart').click(addToFavorites);
-
-}); 
-
-
-
-
-
-
-
-
-// $(document).ready(function(){
-// //  Check Radio-box
-//   $(".favorite input:radio").attr("checked", false);
-//   $('.favorite input').click(function () {
-//     $(".favorite span").removeClass('checked');
-//     $(this).parent().addClass('checked');
-//   });
-
-//   $('input:radio').change( function(){
-//     var trailId = $('#trailId').data('trailid');
-//     var favorite = this.value;
-//     var formInputs = {
-//       'trailId':$('#trailId').data('trailid'),
-//       'favorite':this.value,
-//       'trailName':$('#trailId').data('trailname')};
-//     $.get('/favorite.json', formInputs, printFavorite);
-//     alert(trailId + favorite);
-//     });
-// });
-
-// function printFavorite(data){
-//   alert("Thank You, "+data+" has been added to your list of favorites.");
-// }

@@ -6,11 +6,11 @@
   height: 50%;
   width: 75%;
 }
-/* Optional: Makes the sample page fill the window. */
+
 html, body {
   height: 100%;
-  margin: 0;
-  padding: 0;
+  margin: 5px;
+  padding: 5px;
 }
 
 
@@ -52,33 +52,29 @@ html, body {
 }
 
 /* favorite */
-/*.favorite {
+.favorite {
   width: 300px;
-  float:left;
+  
 }
 
-.favorite span { 
-  float:right; 
-  position:relative; }
-
 .favorite span input {
-  position:absolute;
   top:0px;
   left:0px;
   opacity:0;
 }
+
 .favorite span label {
   display:inline-block;
-  width:30px;
-  height:30px;
+  width:90px;
+  height:35px;
   text-align:center;
   color:#FFF;
-  background:#ccc;
-  font-size:30px;
-  margin-right:2px;
-  line-height:30px;
-  border-radius:50%;
-  -webkit-border-radius:50%;
+  background:#515151;
+  font-size:17px;
+  margin-right:4px;
+  line-height:35px;
+  border-radius:75%;
+  -webkit-border-radius:75%;
   }
 
 .favorite span:hover ~ span label,
@@ -87,4 +83,4 @@ html, body {
 .favorite span.checked ~ span label {
     content: "\2665";
     color:#ff0028;
-}*/
+}

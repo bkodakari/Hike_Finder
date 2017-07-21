@@ -30,6 +30,7 @@ function loadListOfHikes(data){
   if ($.isEmptyObject(data) === true){
     alert("Search did not return any results, please try again.");
   } else {
+    $('#search_results').html('<h2>Search Results</h2>');
     var arrayTrailNames = [];
     $.each(data, function(key, value){
       arrayTrailNames.push(key);

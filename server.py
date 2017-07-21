@@ -34,7 +34,6 @@ def get_local_hikes():
     identifier = (address, distance)
     value = cache.get(identifier)
     if value is not None:
-        print "##### cached value", value
         return jsonify(value)
 
     latitude, longitude = get_geocode(address)
@@ -43,7 +42,6 @@ def get_local_hikes():
 
     value = dict_of_trails
     cache.set(identifier, value, timeout=60 * 5)
-    print "####### new value", value
     return jsonify(dict_of_trails)
 
 
@@ -53,7 +51,6 @@ def display_trail_info(trail_id):
 
     all_trail_data = cache.get(trail_id)
     if all_trail_data is not None:
-        print "######### cached trail_id value: ", all_trail_data
         return render_template("trail_info.html",
                                list_attributes=all_trail_data[0],
                                list_photos=all_trail_data[1],
@@ -73,7 +70,6 @@ def display_trail_info(trail_id):
 
     cache.set(trail_id, all_trail_data, timeout=60*5)
 
-    print "########## new trail_id value: ", all_trail_data
     return render_template("trail_info.html",
                            list_attributes=all_trail_data[0],
                            list_photos=all_trail_data[1],
@@ -86,11 +82,8 @@ def display_trail_info(trail_id):
 def get_trail_data(trail_id):
     """ Get data for a specific trail_id and return it to JS via an Ajax call."""
 
-    print "############ trail_id", trail_id
-
     all_trail_data = cache.get(trail_id)
     if all_trail_data is not None:
-        print "##### cached trail_id value json route:", all_trail_data[3]
         return jsonify(all_trail_data[3])
     else:
         print "###########  FAILED LOGIC"
@@ -120,7 +113,11 @@ def registration_process():
     db.session.commit()
 
     user = User.query.filter_by(username=username).first()
-    session["user_id"] = user.user_id
+    session["user_id"] = {"user_id": user.user_id,
+                          "username": user.username,
+                          "f_name": user.f_name,
+                          "l_name": user.l_name,
+                          "email": user.email}
 
     flash("User %s %s added." % (f_name, l_name))
     return redirect("/")
@@ -186,11 +183,6 @@ def record_ratings():
     rating = request.form.get("rating")
     trail_name = request.form.get("trailName")
 
-    print "trail_id: ", trail_id
-    print "user_id: ", user_id
-    print "rating: ", rating
-    print "trail_name: ", trail_name
-
     trail = Trail.query.get(trail_id)
 
     if not trail:
@@ -198,12 +190,19 @@ def record_ratings():
         db.session.add(new_trail)
         db.session.commit()
 
-    new_rating = Rating(trail_id=trail_id, user_id=user_id, rating=rating)
+    existing_rating = Rating.query.filter_by(trail_id=trail_id,
+                                             user_id=user_id).first()
+    if existing_rating:
+        existing_rating.rating = rating
+        response = "Thank you, your rating has been updated to %s stars." %(rating)
+    else:
+        new_rating = Rating(trail_id=trail_id, user_id=user_id, rating=rating)
+        db.session.add(new_rating)
+        response = "Thank you, we have recorded your rating of %s stars." %(rating)
 
-    db.session.add(new_rating)
     db.session.commit()
 
-    return jsonify(rating)
+    return jsonify(response)
 
 
 @app.route('/add-to-favorites.json', methods=['POST'])
@@ -214,10 +213,6 @@ def record_favorites():
     trail_name = request.form.get("trailName")
     tag_id = request.form.get("id")
 
-    print "trail_id: ", trail_id
-    print "user_id: ", user_id
-    print "trail_name: ", trail_name
-
     trail = Trail.query.get(trail_id)
 
     if not trail:
@@ -225,12 +220,23 @@ def record_favorites():
         db.session.add(new_trail)
         db.session.commit()
 
-    new_favorite = Favorite(trail_id=trail_id, user_id=user_id)
+    existing_favorite = Favorite.query.filter_by(trail_id=trail_id,
+                                                 user_id=user_id).first()
 
-    db.session.add(new_favorite)
+    if existing_favorite:
+        db.session.delete(existing_favorite)
+        response = {
+            'trailName': '%s has been removed from your Favorites list.' % (trail_name),
+            'id': tag_id}
+    else:
+        new_favorite = Favorite(trail_id=trail_id, user_id=user_id)
+        db.session.add(new_favorite)
+        response = {
+            'trailName': '%s has been added to your Favorites list.' % (trail_name),
+            'id': tag_id}
+
     db.session.commit()
 
-    response = {'trailName': trail_name, 'id': tag_id}
     return jsonify(response)
 
 

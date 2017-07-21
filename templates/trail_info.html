@@ -5,27 +5,27 @@
   {{ dict_trail_info["name"] }} Information  
   {% if "user_id" in session %}
     <div class="favorite">
-      <span><button id="heart" name="favorite" type="button" ><label for="heart">♡</label></span>
+      <span><input id="heart" name="favorite" type="button" ><label for="heart">♡ Favorite</label></span>
     </div>
+    <br>
+    <div class="rating">
+      <span><input id="star5" name="rating" type="radio" value="5"><label for="star5">☆</label></span>
+      <span><input id="star4" name="rating" type="radio" value="4"><label for="star4">☆</label></span>
+      <span><input id="star3" name="rating" type="radio" value="3"><label for="star3">☆</label></span>
+      <span><input id="star2" name="rating" type="radio" value="2"><label for="star2">☆</label></span>
+      <span><input id="star1" name="rating" type="radio" value="1"><label for="star1">☆</label></span>
+    </div>
+    <br>
   {% endif %}
 </h3>
 
 {% if dict_trail_info["park_name"] %}
     <h4>
-        {{ dict_trail_info["park_name"] }}
+        PARK NAME: {{ dict_trail_info["park_name"] }}
     </h4>
 {% endif %}
 
-
-{% if "user_id" in session %}
-  <div class="rating">
-    <span><input id="star5" name="rating" type="radio" value="5"><label for="star5">☆</label></span>
-    <span><input id="star4" name="rating" type="radio" value="4"><label for="star4">☆</label></span>
-    <span><input id="star3" name="rating" type="radio" value="3"><label for="star3">☆</label></span>
-    <span><input id="star2" name="rating" type="radio" value="2"><label for="star2">☆</label></span>
-    <span><input id="star1" name="rating" type="radio" value="1"><label for="star1">☆</label></span>
-  </div>
-{% endif %}
+<hr>
 
 <br>
 
