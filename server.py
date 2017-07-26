@@ -62,6 +62,7 @@ def display_trail_info(trail_id):
     all_trail_data = cache.get(trail_id)
 
     if all_trail_data is not None:
+        print all_trail_data[2]
         return render_template("trail_info.html",
                                list_attributes=all_trail_data[0],
                                list_photos=all_trail_data[1],
@@ -83,6 +84,7 @@ def display_trail_info(trail_id):
 
     cache.set(trail_id, all_trail_data, timeout=60*5)
 
+    print all_trail_data[2]
     return render_template("trail_info.html",
                            list_attributes=all_trail_data[0],
                            list_photos=all_trail_data[1],
@@ -135,7 +137,7 @@ def registration_process():
                           "email": user.email}
 
     flash("User %s %s added." % (f_name, l_name))
-    return redirect("/")
+    return redirect("/user/<user_id>")
 
 
 @app.route('/login', methods=["GET"])
@@ -264,6 +266,6 @@ if __name__ == "__main__":
     connect_to_db(app)
 
     # Use the DebugToolbar
-    DebugToolbarExtension(app)
+    # DebugToolbarExtension(app)
 
     app.run(port=5000, host='0.0.0.0')

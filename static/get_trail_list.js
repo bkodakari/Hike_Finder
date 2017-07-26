@@ -30,11 +30,14 @@ function loadListOfHikes(data){
   if ($.isEmptyObject(data) === true){
     alert("Search did not return any results, please try again.");
   } else {
-    $('#search_results').html('<h2>Search Results</h2>');
+    console.log("data:" +data);
+    $('#search_results').html('<h3 class="panel-title">Search Results</h3>');
     var arrayTrailNames = [];
     $.each(data, function(key, value){
       arrayTrailNames.push(key);
     });
+    console.log("arrayTrailNames"+arrayTrailNames);
+    
     
     var arrayTrailLatLng = [];
 
@@ -43,8 +46,8 @@ function loadListOfHikes(data){
       var lng = data[arrayTrailNames[i]][2];
       var latLng = new google.maps.LatLng(lat, lng);
       arrayTrailLatLng.push(latLng);
-      $('#json_of_hikes').append('<li>'+'<a href="/trails/'+
-        data[arrayTrailNames[i]][4]+'"">'+arrayTrailNames[i]+'</a></li>');
+      $('#json_of_hikes').append('<a class="list-group-item" href="/trails/'+
+        data[arrayTrailNames[i]][4]+'"">'+arrayTrailNames[i]+'</a>');
     }
 
     var myLatlng = arrayTrailLatLng[0];
@@ -57,9 +60,12 @@ function loadListOfHikes(data){
     var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
     for (var l=0; l < arrayTrailLatLng.length; l++){
+      var url = "/trails/"+data[arrayTrailNames[l]][4];
+      console.log(data[arrayTrailNames[l]][4]);
       var marker = new google.maps.Marker({
       position: arrayTrailLatLng[l],
       title: arrayTrailNames[l],
+      url: url
     });
 
   // how can i assign a window to each marker? Can't put a function inside a loop.
@@ -80,6 +86,9 @@ function loadListOfHikes(data){
       //   infowindow.open(map, marker);
       // });
     marker.setMap(map);
+    google.maps.event.addListener(marker, 'click', function() {
+    window.location.href = this.url;
+    });
     }
   }
 }

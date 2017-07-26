@@ -1,86 +1,92 @@
 {% extends 'index.html' %}
 {% block content %}
 
-<h3 id="trailId" data-trailid="{{ trail_id }}" data-trailname="{{ dict_trail_info["name"] }}">
-  {{ dict_trail_info["name"] }} Information  
-  {% if "user_id" in session %}
-
-  <!-- toggle? need to switch class -->
-    {% if existing_favorite %}
-    <!-- needs to start as red and update to "unchecked" when clicked -->
-      <div class="favorite">
-        <span><input id="heart" name="favorite" type="button" ><label for="heart">♡ Favorite</label></span>
+  <div class="container">
+    <div class="row">
+      <div class="page-header">
+        <h3 id="trailId" data-trailid="{{ trail_id }}" data-trailname="{{ dict_trail_info["name"] }}">
+      {{ dict_trail_info["name"] }}<small>  {{ dict_trail_info["park_name"] }}</small></h3>
       </div>
-    {% else %}
-      <div class="favorite">
-        <span><input id="heart" name="favorite" type="button" ><label for="heart">♡ Favorite</label></span>
-      </div>
-    {% endif %}
+      <div>
+      {% if list_maps %}
+        {% for map in list_maps %}
+        <a href="{{ map }}">{{ map }}</a>
+        {% endfor %}
+      {% endif %}
+    </div>
+    </div>
+  </div>
 
+  <br>
+
+  <div class="container">
+    <div class="row">
+      {% if "user_id" in session %}
+        <div class="col-xs-12">
+          <!-- toggle? need to switch class -->
+          {% if existing_favorite %}
+          <!-- needs to start as red and update to "unchecked" when clicked -->
+            <p>This is one of your FAVORITE trails.</p>
+          {% else %}
+            <div class="favorite">
+              <span><input id="heart" name="favorite" type="button" ><label for="heart">♡ Favorite</label></span>
+            </div>
+          {% endif %}
+        </div>
     <br>
+        <div class="col-xs-12 rating">
+          {% if existing_rating %}
+            <!-- to update, i need to switch the class rather than just display -->
+            <p>You rated this {{ existing_rating.rating }} stars.</p>
+          {% else %}
+            <span><input id="star5" name="rating" type="radio" value="5"><label for="star5">☆</label></span>
+            <span><input id="star4" name="rating" type="radio" value="4"><label for="star4">☆</label></span>
+            <span><input id="star3" name="rating" type="radio" value="3"><label for="star3">☆</label></span>
+            <span><input id="star2" name="rating" type="radio" value="2"><label for="star2">☆</label></span>
+            <span><input id="star1" name="rating" type="radio" value="1"><label for="star1">☆</label></span>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
 
-    {% if existing_rating %}
-      <!-- to update, i need to switch the class rather than just display -->
-      You rated this {{ existing_rating.rating }} stars.
-    {% else %}
-      <div class="rating">
-        <span><input id="star5" name="rating" type="radio" value="5"><label for="star5">☆</label></span>
-        <span><input id="star4" name="rating" type="radio" value="4"><label for="star4">☆</label></span>
-        <span><input id="star3" name="rating" type="radio" value="3"><label for="star3">☆</label></span>
-        <span><input id="star2" name="rating" type="radio" value="2"><label for="star2">☆</label></span>
-        <span><input id="star1" name="rating" type="radio" value="1"><label for="star1">☆</label></span>
+<br>
+
+<div class="container">
+  <div class="row">
+    {% if dict_trail_info['description'] %}
+    <div class="col-xs-6">
+      <div class="transbox2">
+        <h5>DESCRIPTION</h5>
+          {{ dict_trail_info['description']|safe }}
       </div>
+    </div>
     {% endif %}
+    {% if list_attributes %}
+    <div class="col-xs-6">
+      <div class="transbox2">
+        <h5>Trailhead Attributes:</h5> 
+          <ul>
+          {% for item in list_attributes %}
+            <li> {{ item }} </li>
+          {% endfor %}
+          </ul>
+      </div>
+    </div>
+    {% endif %}
+    {% if list_photos %}  
+    <div class="col-xs-6">
+      <div class="transbox2">
+        <h5>Trail Photos:</h5> 
+          {% for item in list_photos %}
+          <img src="https:{{ item }}"> <br><br>
+          {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
 
-    <br>
-  {% endif %}
-</h3>
-
-{% if dict_trail_info["park_name"] %}
-    <h4>
-        PARK NAME: {{ dict_trail_info["park_name"] }}
-    </h4>
-{% endif %}
-
-<hr>
-
-<br>
-
-{% if dict_trail_info['description'] %}
-  <h5>DESCRIPTION</h5>
-    {{ dict_trail_info['description'] }}
-{% endif %}
-
-<br>
-
-{% if list_maps %}
-  <h5>trail maps:</h5> 
-    {% for map in list_maps %}
-      <a href="{{ map }}">{{ map }}</a>
-    {% endfor %}
-{% endif %}
-
-<br>
-
-{% if list_attributes %}
-  <h5>trailhead attributes:</h5> 
-  <ul>
-    {% for item in list_attributes %}
-      <li> {{ item }} </li>
-    {% endfor %}
-  </ul>
-{% endif %}
-
-<br>
-
-{% if list_photos %}
-  <h5>trail photos:</h5> 
-  {% for item in list_photos %}
-    <img src="https:{{ item }}"> <br>
-  {% endfor %}
-{% endif %}
-
-<br>
 
 <script src="/static/trail_info_marker.js"></script>
 <script src="/static/ratings.js"></script>

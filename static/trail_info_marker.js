@@ -18,7 +18,7 @@ function setMarker(data){
   var myLatLng = new google.maps.LatLng(lat, lng);
 
   var mapOptions = {
-  zoom: 14,
+  zoom:12,
   center: myLatLng
   };
 
@@ -35,7 +35,7 @@ function setMarker(data){
                       '<div id="siteNotice">'+'</div>'+
                       '<h4 id="firstHeading" class="firstHeading">'+data['name']+'</h3>'+
                       '<div id="bodyContent">'+
-                      '<p>'+data['description']+'</p>'+
+                      '<p>'+lat+', '+lng+'</p>'+
                       '</div>'+'</div>';
   
   var infowindow = new google.maps.InfoWindow({

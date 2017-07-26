@@ -1,40 +1,62 @@
 {% extends 'index.html' %}
 {% block content %}
-  <form action="/local-hikes" name="search_params">
-    Starting Point: <input id="address" name="address" type="text" placeholder="Enter Address" required>
-    Search Radius: <input id="distance" name="distance" type="text" placeholder="Search Radius" value=10 required>
-    <button id="submit" type="submit">Go!</button>
-  </form>
+  <div class="container" id="user-page">
+    <div class="row">
+      <div class="col-lg-12">
+        <form action="/local-hikes" name="search_params">
+          Starting Point: <input id="address" name="address" type="text" placeholder="Enter Address" required>
+          Search Radius: <input id="distance" name="distance" type="text" placeholder="Search Radius" value=5 required>
+          <button id="submit" type="submit">Go!</button>
+        </form>
+      </div>
+    </div>
 
-  <h1>Welcome Back {{ session["user_id"]["f_name"] }} {{ session["user_id"]["l_name"] }}!</h1>
+    <div class="row">
+      <div class="col-lg-12">
+        <h1>Welcome Back {{ session["user_id"]["f_name"] }} {{ session["user_id"]["l_name"] }}!</h1>
+      </div>
+    </div>
 
-  <p>Username: {{ session["user_id"]["username"] }}</p>
-  {% if user.email %}
-  <p>Email: {{ session["user_id"]["email"] }}</p>
-  {% endif %}
+    <div class="row">
+      <div class="col-xs-6">
+        <p>Username: {{ session["user_id"]["username"] }}</p>
+      </div>
+      <div class="col-xs-6">
+        {% if user.email %}
+        <p>Email: {{ session["user_id"]["email"] }}</p>
+        {% endif %}
+      </div>
+    </div>
 
-  {% if user.favorites %}
-    <h2>Your Favorite Trails</h2>
-    <ul>
-    {% for favorite in user.favorites %}
-      <li>
-        <a href="/trails/{{ favorite.trail_id }}">{{ favorite.trail.trail_name }}</a>
-      </li>
-    {% endfor %}
-    </ul>
-  {% endif %}
+    <div class="row" id="fav-list">
+        {% if user.favorites %}
+        <div class="col-xs-6">
+          <h2>Your Favorite Trails</h2>
+          <ul>
+            {% for favorite in user.favorites %}
+              <li>
+                <a href="/trails/{{ favorite.trail_id }}">{{ favorite.trail.trail_name }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
 
-  {% if user.ratings %}
-    <h2>Your Trail Ratings</h2>
-    <ul>
-    {% for rating in user.ratings %}
-      <li>
-        <a href="/trails/{{ rating.trail_id }}">{{ rating.trail.trail_name }}</a>
-        was rated {{ rating.rating }}
-      </li>
-    {% endfor %}
-    </ul>
-  {% endif %}
+        {% if user.ratings %}
+        <div class="col-xs-6" id="rate-list">
+          <h2>Your Trail Ratings</h2>
+          <ul>
+            {% for rating in user.ratings %}
+              <li>
+              <a href="/trails/{{ rating.trail_id }}">{{ rating.trail.trail_name }}</a>
+                was rated {{ rating.rating }}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+    </div>
+  </div>
 
 
 <script src="/static/get_trail_list.js"></script>

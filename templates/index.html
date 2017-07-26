@@ -2,63 +2,90 @@
 <html lang="en">
 <head>
   <script src="https://code.jquery.com/jquery.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/static/stylesheet.css">
   <title>Hike Finder</title>
 </head>
 
 
 <body>
-  <div>
-    <h1>HIKE FINDER</h1>
-    <h3>Where Do You Want To Hike Today?</h3>
+  <div class="col-xs-12" id="everything">
+  <div class="container">
+    <div class="row">
+      <div class="page-header">
+        <h1 id="title"><a style="color: black; text-decoration: none;" href="/">HIKE FINDER</a><small> Where Do You Want To Hike Today?</small></h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <nav class="navbar navbar-default">
+        <div class="navbar-header">
+          {% if "user_id" in session %}
+          <p class= "navbar-text navbar-right">Logged in as: {{ session["user_id"]["f_name"] }}</p> 
+          <a class="btn btn-default navbar-btn btn-sm" href="/logout">Logout</a>
+          <a class="btn btn-default navbar-btn btn-sm" href="/user/{{ session["user_id"]["user_id"] }}">Profile</a>
+          {% else %}
+          <a class="btn btn-default navbar-btn btn-sm" href="/login">Login</a>
+          <a class="btn btn-default navbar-btn btn-sm" href="/register">Register</a>
+          {% endif %}
+        </div>
+      </nav>
+    </div>
+
+    {% for message in get_flashed_messages() %}
+      <div class="alert alert-success" role="alert">
+        <li> {{ message }}</li>
+      </div>
+    {% endfor %}
   </div>
 
-  <div>
-    {% if "user_id" in session %}
-    Logged in as: {{ session["user_id"]["f_name"] }}<br> 
-    <a href="/logout">Logout</a> <br>
-    <a href="/user/{{ session["user_id"]["user_id"] }}">Profile</a>
-    {% else %}
-    <a href="/login">Login</a> <br>
-    <a href="/register">Register</a>
-    {% endif %}
-  </div>
+  <br>
+</div>
 
-  <hr>
-
-  {% for message in get_flashed_messages() %}
-    <li> {{ message }}</li>
-  {% endfor %}
-
-  <hr>
-
-  <div id="map"></div>
-
+    <div class="container">
+      <div class="row">
+        <div id="map" class="col-xs-12">
+        </div>
+      </div>
+    </div>
+  
+  <div class="col-xs-12" id="everythingelse">
   <br>
 
   {% block content %} put your content here {% endblock %}
 
-  <br> 
+  <br>
 
-  <div id="search_results"></div>
-  <div id="json_of_hikes">
-    <ul>
-    </ul>
-  </div>
+    <div class="container">
+      <div class="row">
+        <div class="panel panel-default col-xs-12">
+          <div id="search_results" class="panel-heading">
+            <p> Enter in your desired starting point and search radius.</p>
+          </div>
+          <div id="json_of_hikes" class="panel-body">
+            <p> Press "Go!" and let the adventure begin!</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
   <br>
 
-  <script>
-  function initMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 9,
-    center: {lat: 37.7749, lng: -122.4194}
-  });
-  }
-  </script>
+  </div>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+    function initMap() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 9,
+      center: {lat: 37.7749, lng: -122.4194}
+    });
+    }
+    </script>
 
-  <script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUcUHrh6UEkGE_Pn-XMqHwY_aftv8PJNU&callback=initMap">
-  </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUcUHrh6UEkGE_Pn-XMqHwY_aftv8PJNU&callback=initMap">
+    </script>
+  </div>
+</div>
 </body>
 </html>

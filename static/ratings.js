@@ -27,7 +27,7 @@ function printRating(response){
 
 $(document).ready(function(){
 //  select button
-  $(".favorite input:button").attr("checked", false);
+  // $(".favorite input:button").attr("checked", false);
   $('.favorite input:button').click(function () {
     $(".favorite span").removeClass('checked');
     $(this).parent().addClass('checked');

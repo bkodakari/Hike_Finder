@@ -2,21 +2,121 @@
 /*from google maps geocode api*/
   /* Always set the map height explicitly to define the size of the div
    * element that contains the map. */
-#map {
-  height: 50%;
-  width: 75%;
+
+#user-page {
+  text-align: center;
+}
+
+#fav-list {
+  text-align: left;
+}
+
+#rate-list {
+  text-align: left;
+}
+
+.navbar-btn {
+  margin: 10px;
+}
+
+.navbar-default .navbar-text {
+  color: black;
+}
+
+.navbar.navbar-default {
+  background-color: #87BFB8;
+}
+
+.page-header {
+  margin: 15px 10px 15px 10px;
+  padding: 0;
+  border-bottom: 1px solid #eee;
 }
 
 html, body {
   height: 100%;
   margin: 5px;
   padding: 5px;
+  background-size: cover;
+  background: url(images/hiker.jpg) no-repeat center center;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Acme", "Chonburi", sans-serif;
+  font-weight: 900;
+}
+
+h1 small {
+  font-weight: 900;
+  color: black;
+}
+
+h3 small{
+  font-weight: 900;
+  color: black;
+}
+
+a {
+  color: #040C6B;
+  text-decoration: none;
+}
+
+.page-header{
+  font-weight: 900
+}
+
+.panel {
+  background-color: #87BFB8;
+}
+.panel-heading {
+  font-weight: 600;
+  color: black;
+  background-color: #87BFB8;
+}
+
+.panel-default>.panel-heading {
+  background-color: #87BFB8;
+}
+
+.list-group-item {
+  background-color: #87BFB8;
+}
+
+a.list-group-item {
+  color: black;
+}
+
+#everything, #everythingelse {
+  filter: opacity(.8);
+  font-weight: 600;
+  color: black;
+}
+
+#map {
+  height: 400px;
+  filter: opacity(.9);
+}
+
+.transbox {
+    margin: 0px 150px 0px 150px ;
+    background-color: #87BFB8;
+    border: 1px solid black;
+    padding: 10px 20px;
+    text-align: center;
+    opacity: 0.8;
+}
+
+.transbox2 {
+    margin: 0px;
+    background-color: #87BFB8;
+    border: 1px solid black;
+    padding: 10px 10px;
+    opacity: 0.8;
+}
 
 /* rating */
 .rating {
-  width: 300px;
+  width: 200px;
   float:left;
 }
 
